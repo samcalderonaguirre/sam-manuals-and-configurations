@@ -1,0 +1,5 @@
+Sfc /scannow
+DISM.exe /Online /Cleanup-image /Scanhealth
+Dism.exe /Online /Cleanup-Image /CheckHealth
+DISM.exe /Online /Cleanup-image /Restorehealth
+Dism.exe /Online /Cleanup-Image /startComponentCleanup

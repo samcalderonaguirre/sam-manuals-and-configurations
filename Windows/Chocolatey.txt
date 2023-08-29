@@ -1,0 +1,82 @@
+**************************************************************************************************************
+				Administrador de paquetes Chocolatey en Windows**************************************************************************************************************
+------------------------------------------------Referencias---------------------------------------------------
+
+https://conpilar.es/como-instalar-y-usar-chocolatey-un-sabroso-administrador-de-paquetes-para-windows-10/
+https://chocolatey.org/install#individual
+https://www.genbeta.com/a-fondo/como-instalar-apps-en-windows-de-forma-segura-y-sencilla-usando-la-linea-de-comandos
+https://conpilar.es/como-instalar-y-usar-chocolatey-un-sabroso-administrador-de-paquetes-para-windows-10/
+
+--------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+						Instalación
+--------------------------------------------------------------------------------------------------------------
+
+Primero, asegúrese de que está utilizando un shell administrativo: también puede instalar como no administrador, 
+consulte Instalación no administrativa.
+
+
+Con PowerShell, debe asegurarse de que Get-ExecutionPolicy no esté restringido. Sugerimos usar para omitir la 
+política para instalar las cosas o para un poco más de seguridad.BypassAllSigned
+
+Run Get-ExecutionPolicy. If it returns Restricted, 
+then run Set-ExecutionPolicy AllSigned or Set-ExecutionPolicy Bypass -Scope Process.
+
+Ahora ejecute el siguiente comando:
+
+----------------------------------------------------------------------------------------------------------------
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+----------------------------------------------------------------------------------------------------------------
+
+Pegue el texto copiado en el shell y presione Entrar.
+
+Espere unos segundos a que se complete el comando.
+
+If you don't see any errors, you are ready to use Chocolatey! 
+
+Type choco or choco -? now, or see Getting Started for usage instructions.
+
+-----------------------------------------------------------------------------------------------------------------
+						Instalar gestor gráfico
+-----------------------------------------------------------------------------------------------------------------
+choco install chocolateygui
+-----------------------------------------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------------------------------------------
+Instalar un programa
+
+choco install programa
+choco install programa -y ##para confirmar los pasos de instalación en caso que el paquete requiere 
+
+También podemos habilitar la característica global para aceptar siempre la ejecución del script mediante:
+
+choco feature enable -n allowGlobalConfirmation
+-----------------------------------------------------------------------------------------------------------------
+Buscar un paquete
+
+choco search nombrepaquete
+-----------------------------------------------------------------------------------------------------------------
+Actualizar paquetes
+
+choco update cmder
+
+O
+
+cup cmder
+
+
+Si queremos actualizar todos los paquetes instalados podemos hacerlo mediante:
+
+cup all
+-------------------------------------------------------------------------------------------------------------------
+Desinstalar paquetes
+
+choco uninstall treesizefree
+-------------------------------------------------------------------------------------------------------------------
+Listar paquetes instalados
+
+choco list -lo
+-------------------------------------------------------------------------------------------------------------------
+Actualizar Chocolatey
+
+choco upgrade chocolatey

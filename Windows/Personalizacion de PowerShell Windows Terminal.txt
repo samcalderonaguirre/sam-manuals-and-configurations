@@ -1,0 +1,838 @@
+How to set up PowerShell prompt with Oh My Posh on Windows 11
+
+------------------------------------------------------------------
+1.-	Nerd Fonts
+------------------------------------------------------------------
+https://github.com/ryanoasis/nerd-fonts
+https://github.com/ryanoasis/nerd-fonts/releases
+descargar la fuente Hack https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Hack.zip
+Instalar la fuente "Hack Bold Italic Nerd Font Complete Mono Windows Compatible"
+------------------------------------------------------------------
+2.-	 Configurar Windows Terminal
+------------------------------------------------------------------
+En Windows 11 activar como predetirminado Windows Terminal
+Activar el modo acrylico
+Valores predetrminados en apariencia en el texto cambiar One Half Dark y la fuente Hack NF
+Habilitar Acrilico opcaidad al 50 %
+------------------------------------------------------------------
+3.-	Instalar PowerShell de la MS Store
+------------------------------------------------------------------
+4.- Cambiar el Shell por defecto
+------------------------------------------------------------------
+En inicio cambiar el perfil predetirminado por el de la version mas actual de powershell
+------------------------------------------------------------------
+5.-	Cambiar el color de fondo del terminal
+------------------------------------------------------------------
+Abrimos el archivo de configuracion JSON
+Duplicar la confiiguracion de One Half
+*******
+        {
+            "background": "#282C34",
+            "black": "#282C34",
+            "blue": "#61AFEF",
+            "brightBlack": "#5A6374",
+            "brightBlue": "#61AFEF",
+            "brightCyan": "#56B6C2",
+            "brightGreen": "#98C379",
+            "brightPurple": "#C678DD",
+            "brightRed": "#E06C75",
+            "brightWhite": "#DCDFE4",
+            "brightYellow": "#E5C07B",
+            "cursorColor": "#FFFFFF",
+            "cyan": "#56B6C2",
+            "foreground": "#DCDFE4",
+            "green": "#98C379",
+            "name": "One Half Dark",
+            "purple": "#C678DD",
+            "red": "#E06C75",
+            "selectionBackground": "#FFFFFF",
+            "white": "#DCDFE4",
+            "yellow": "#E5C07B"
+        },
+******
+        {
+            "background": "#001B26",
+            "black": "#282C34",
+            "blue": "#61AFEF",
+            "brightBlack": "#5A6374",
+            "brightBlue": "#61AFEF",
+            "brightCyan": "#56B6C2",
+            "brightGreen": "#98C379",
+            "brightPurple": "#C678DD",
+            "brightRed": "#E06C75",
+            "brightWhite": "#DCDFE4",
+            "brightYellow": "#E5C07B",
+            "cursorColor": "#FFFFFF",
+            "cyan": "#56B6C2",
+            "foreground": "#DCDFE4",
+            "green": "#98C379",
+            "name": "One Half Dark (modded)",
+            "purple": "#C678DD",
+            "red": "#E06C75",
+            "selectionBackground": "#FFFFFF",
+            "white": "#DCDFE4",
+            "yellow": "#E5C07B"
+        },
+*********
+----------------------------------------
+6.-	Instalar Scoop
+----------------------------------------
+iwr -useb get.scoop.sh | iex
+scoop install curl sudo jq
+curl 'https://api.inkdrop.app/' | jq .
+----------------------------------------
+7.- Instalar Git for Windows
+----------------------------------------
+winget install -e --id Git.Git
+----------------------------------------
+8.- Instalar Neovim
+----------------------------------------
+scoop install neovim gcc
+----------------------------------------
+9.-	Crear un directorio de perfil de usuario y comandos de PowerShell
+----------------------------------------
+mkdir .config/powershell
+nvim .config/powershell/user_profile.ps1
+*******
+# Alias
+Set-Alias vim nvim
+Set-Alias ll ls
+Set-Alias g git
+Set-Alias grep findstr
+Set-Alias tig 'C:\Program Files\Git\usr\bin\tig.exe'
+Set-Alias less 'C:\Program Files\Git\usr\bin\less.exe'
+*********
+mkdir .\Documents\PowerShell
+nvim .\Documents\PowerShell\Microsoft.PowerShell_profile.ps1
+nvim $PROFILE.CurrentUserCurrentHost
+*********
+. $env:USERPROFILE\.config\powershell\user_profile.ps1
+*********
+-------------------------------------------------------
+10.-	Instalar Oh My Posh tema de terminal
+-------------------------------------------------------
+Install-Module posh-git -Scope CurrentUser -Force
+Install-Module oh-my-posh -Scope CurrentUser -Force
+vim .\user_profile.ps1
+******
+# Prompt
+Import-Module posh-git
+Import-Module oh-my-posh
+Set-PoshPrompt Paradox
+
+# Alias
+Set-Alias vim nvim
+Set-Alias ll ls
+Set-Alias g git
+Set-Alias grep findstr
+Set-Alias tig 'C:\Program Files\Git\usr\bin\tig.exe'
+Set-Alias less 'C:\Program Files\Git\usr\bin\less.exe'
+***********
+---------------------------------------------------------
+11.-	Personalizar Prompt
+---------------------------------------------------------
+https://github.com/JanDeDobbeleer/oh-my-posh/blob/main/themes/star.omp.json
+vim sam.omp.json
+*********
+/***
+{
+   "$schema":"https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+   "final_space":false,
+   "osc99":true,
+   "blocks":[
+      {
+         "type":"prompt",
+         "alignment":"left",
+         "segments":[
+            {
+               "type":"shell",
+               "style":"diamond",
+               "leading_diamond":"\u256d\u2500\ue0b6",
+               "trailing_diamond":"",
+               "foreground":"#ffffff",
+               "background":"#0077c2",
+               "properties":{
+                  
+               }
+            },
+            {
+               "type":"root",
+               "style":"diamond",
+               "leading_diamond":"",
+               "trailing_diamond":"",
+               "foreground":"#fffb38",
+               "background":"#ef5350",
+               "properties":{
+                  "root_icon":"\uf292",
+                  "prefix":"<parentBackground>\ue0b0</> "
+               }
+            },
+            {
+               "type":"path",
+               "style":"powerline",
+               "powerline_symbol":"\ue0b0",
+               "foreground":"#e4e4e4",
+               "background":"#444444",
+               "properties":{
+                  "style":"full",
+                  "enable_hyperlink":true
+               }
+            },
+            {
+               "type":"git",
+               "style":"powerline",
+               "powerline_symbol":"\ue0b0",
+               "foreground":"#011627",
+               "background":"#fffb38",
+               "background_templates":[
+                  "{{ if or (.Working.Changed) (.Staging.Changed) }}#ffeb95{{ end }}",
+                  "{{ if and (gt .Ahead 0) (gt .Behind 0) }}#c5e478{{ end }}",
+                  "{{ if gt .Ahead 0 }}#c792ea{{ end }}",
+                  "{{ if gt .Behind 0 }}#c792ea{{ end }}"
+               ],
+               "properties":{
+                  "branch_icon":"\ue725",
+                  "fetch_status":true,
+                  "fetch_upstream_icon":true,
+                  "template":"{{ .HEAD }} {{ if .Working.Changed }}{{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }}|{{ end }}{{ if .Staging.Changed }}<#ef5350> \uf046 {{ .Staging.String }}</>{{ end}}"
+               }
+            }
+         ]
+      },
+      {
+         "type":"prompt",
+         "alignment":"right",
+         "segments":[
+            {
+               "type":"node",
+               "style":"diamond",
+               "leading_diamond":" \ue0b6",
+               "trailing_diamond":"\ue0b4",
+               "foreground":"#3c873a",
+               "background":"#303030",
+               "properties":{
+                  "prefix":"\ue718",
+                  "postfix":"",
+                  "display_package_manager":true,
+                  "yarn_icon":" <#348cba>🐱‍👤</>",
+                  "npm_icon":" <#cc3a3a>📂</>"
+               }
+            },
+            {
+               "type":"time",
+               "style":"diamond",
+               "invert_powerline":true,
+               "leading_diamond":" \ue0b6",
+               "trailing_diamond":"\ue0b4",
+               "foreground":"#ffffff",
+               "background":"#40c4ff",
+               "properties":{
+                  "prefix":"\uf5ef",
+                  "postfix":""
+               }
+            }
+         ]
+      },
+      {
+         "type":"prompt",
+         "alignment":"left",
+         "newline":true,
+         "segments":[
+            {
+               "type":"text",
+               "style":"plain",
+               "foreground":"#21c7c7",
+               "properties":{
+                  "prefix":"",
+                  "postfix":"",
+                  "text":"╰─"
+               }
+            },
+            {
+               "type":"exit",
+               "style":"plain",
+               "foreground":"#e0f8ff",
+               "properties":{
+                  "prefix":"\u276f",
+                  "display_exit_code":false,
+                  "always_enable":true,
+                  "error_color":"#ef5350"
+               }
+            }
+         ]
+      }
+   ]
+}
+
+
+
+
+
+***/
+*********
+{
+  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "blocks": [
+    {
+      "type": "prompt",
+      "alignment": "right",
+      "segments": [
+        {
+          "type": "session",
+          "style": "diamond",
+          "trailing_diamond": "\uE0B4 ",
+          "leading_diamond": "\uE0B6",
+          "foreground": "#E64747",
+          "background": "#29315A",
+          "properties": {
+            "display_host": false,
+            "postfix": "",
+            "prefix": ""
+          }
+        },
+        {
+          "type": "path",
+          "style": "diamond",
+          "trailing_diamond": "\uE0B4",
+          "leading_diamond": "\uE0B6",
+          "foreground": "#3EC669",
+          "background": "#29315A",
+          "properties": {
+            "prefix": "\uE5FF ",
+            "postfix": "",
+            "style": "folder"
+          }
+        },
+        {
+          "type": "git",
+          "style": "diamond",
+          "trailing_diamond": "\uE0B4",
+          "leading_diamond": " \uE0B6",
+          "foreground": "#43CCEA",
+          "background": "#29315A",
+          "properties": {
+            "prefix": "",
+            "postfix": "",
+            "display_status_detail": false,
+            "branch_icon": ""
+          }
+        },
+        {
+          "type": "python",
+          "style": "diamond",
+          "trailing_diamond": "\uE0B4",
+          "leading_diamond": " \uE0B6",
+          "foreground": "#E4F34A",
+          "background": "#29315A",
+          "properties": {
+            "prefix": "\uE235",
+            "postfix": "",
+            "display_version": false
+          }
+        },
+        {
+          "type": "go",
+          "style": "diamond",
+          "trailing_diamond": "\uE0B4",
+          "leading_diamond": " \uE0B6",
+          "foreground": "#7FD5EA",
+          "background": "#29315A",
+          "properties": {
+            "prefix": "\uFCD1",
+            "postfix": "",
+            "display_version": false
+          }
+        },
+        {
+          "type": "node",
+          "style": "diamond",
+          "trailing_diamond": "\uE0B4",
+          "leading_diamond": " \uE0B6",
+          "foreground": "#42E66C",
+          "background": "#29315A",
+          "properties": {
+            "prefix": "\uE718",
+            "postfix": "",
+            "display_version": false
+          }
+        },
+        {
+          "type": "ruby",
+          "style": "diamond",
+          "trailing_diamond": "\uE0B4",
+          "leading_diamond": " \uE0B6",
+          "foreground": "#E64747",
+          "background": "#29315A",
+          "properties": {
+            "prefix": "\uE791",
+            "postfix": "",
+            "display_version": false
+          }
+        },
+        {
+          "type": "java",
+          "style": "diamond",
+          "trailing_diamond": "\uE0B4",
+          "leading_diamond": " \uE0B6",
+          "foreground": "#E64747",
+          "background": "#29315A",
+          "properties": {
+            "prefix": "\uE738",
+            "postfix": "",
+            "display_version": false
+          }
+        },
+        {
+          "type": "julia",
+          "style": "diamond",
+          "trailing_diamond": "\uE0B4",
+          "leading_diamond": " \uE0B6",
+          "foreground": "#9B6BDF",
+          "background": "#29315A",
+          "properties": {
+            "prefix": "\uE624",
+            "display_version": false
+          }
+        },
+        {
+          "type": "battery",
+          "style": "diamond",
+          "trailing_diamond": "\uE0B4",
+          "leading_diamond": " \uE0B6",
+          "foreground": "#9B6BDF",
+          "background": "#29315A",
+          "properties": {
+            "battery_icon": "",
+            "discharging_icon": "\u21E3 ",
+            "charging_icon": "\u21E1 ",
+            "charged_icon": "\u0095 ",
+            "color_background": false,
+            "charged_color": "#4caf50",
+            "charging_color": "#40c4ff",
+            "discharging_color": "#ff5722",
+            "prefix": "",
+            "postfix": "",
+            "display_charging": true
+          }
+        }
+      ]
+    },
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "newline": true,
+      "segments": [
+        {
+          "type": "executiontime",
+          "style": "diamond",
+          "trailing_diamond": "\uE0B4 ",
+          "leading_diamond": "\uE0B6",
+          "foreground": "#AEA4BF",
+          "background": "#29315A",
+          "properties": {
+            "threshold": 150,
+            "style": "austin",
+            "prefix": "",
+            "postfix": ""
+          }
+        },
+        {
+          "type": "text",
+          "style": "diamond",
+          "trailing_diamond": "\uE0B4",
+          "leading_diamond": "\uE0B6",
+          "foreground": "#7FD5EA",
+          "background": "#29315A",
+          "properties": {
+              "prefix": "",
+              "text": "\u276F",
+              "postfix": ""
+          }
+        },
+        {
+          "type":"text",
+          "style": "plain",
+          "foreground": "transparent",
+          "properties": {
+              "prefix": "",
+              "text": " ",
+              "postfix": ""
+          }
+        }
+      ]
+    }
+  ]
+}
+                                                                                                                                                                                                                                 "prefix": "<parentBackground>\ue0b0</> "                                                                                                                                                                                                                 }                                                                                                                                                                                                                                                        }                                                                                                                                                                                                                                                        ]                                                                                                                                                                                                                                                        }                                                                                                                                                                                                                                                        ]                                                                                                                                                                                                                                                        }
+********************
+oh-my-posh --init --shell pwsh --config .\sam.omp.json | Invoke-Expression
+╭─
+╰─
+✿
+
+----------------------------------------------------
+12.- Cargar la configuracion personalizada del prompt
+-----------------------------------------------------
+vim .\user_profile.ps1
+****
+# Prompt
+Import-Module posh-git
+Import-Module oh-my-posh
+
+#Load prompt config
+function Get-ScriptDirectory { Split-Path $MyInvocation.ScriptName }
+$PROMPT_CONFIG = Join-Path (Get-ScriptDirectory) 'sam.omp.json'
+oh-my-posh --init --shell pwsh --config $PROMPT_CONFIG | Invoke-Expression
+
+# Alias
+Set-Alias vim nvim
+Set-Alias ll ls
+Set-Alias g git
+Set-Alias grep findstr
+Set-Alias tig 'C:\Program Files\Git\usr\bin\tig.exe'
+Set-Alias less 'C:\Program Files\Git\usr\bin\less.exe'
+******************************
+. .\user_profile.ps1
+----------------------------------------------
+13.- install nodejs
+----------------------------------------------
+scoop install nvm
+nvm install 16.14.0
+nvm use 16.14.0
+node -v
+-----------------------------------------------
+14.- Instalar terminal icons
+-----------------------------------------------
+Install-Module -Name Terminal-Icons -Repository PSGallery -Force
+Import-Module Terminal-Icons
+-----------------------------------------------
+15.- Instalar z directorio jumper
+-----------------------------------------------
+Install-Module -Name z -Force
+-----------------------------------------------
+16.- Instalar PSreadline
+-----------------------------------------------
+Install-Module -Name PSReadLine -AllowPrerelease -Scope CurrentUser -Force -SkipPublisherCheck
+Set-PSReadLineOption -PredictionSource History
+Set-PSReadLineOption -PredictionViewStyle ListView
+-----------------------------------------------
+17.- Instalar fzf Fuzzy finder
+-----------------------------------------------
+scoop install fzf
+Install-Module PSFzf -Scope CurrentUser -Force
+Set-PSFzfOption -PSReadlineChordProvider 'Ctrl+f' -PSReadlineChordReverseHistory 'Ctrl+r'
+----------------------------------------------
+18.- Actualizar user profile
+----------------------------------------------
+# Prompt
+Import-Module posh-git
+Import-Module oh-my-posh
+
+# Load prompt config
+function Get-ScriptDirectory { Split-Path $MyInvocation.ScriptName }
+$PROMPT_CONFIG = Join-Path (Get-ScriptDirectory) 'sam.omp.json'
+oh-my-posh --init --shell pwsh --config $PROMPT_CONFIG | Invoke-Expression
+
+# Icons
+Import-Module -Name Terminal-Icons
+
+# PSReadLine
+Set-PSReadlineOption -EditMode Emacs
+Set-PSReadlineOption -BellStyle None
+Set-PSReadlineKeyHandler -Chord 'Ctrl+d' -Function DeleteChar
+Set-PSReadlineOption -PredictionSource History
+
+# Fzf
+Import-Module PSFzf
+Set-PSFzfOption -PSReadlineChordProvider 'Ctrl+f' -PSReadlineChordReverseHistory 'Ctrl+r'
+
+# Alias
+Set-Alias vim nvim
+Set-Alias ll ls
+Set-Alias g git
+Set-Alias grep findstr
+Set-Alias tig 'C:\Program Files\Git\usr\bin\tig.exe'
+Set-Alias less 'C:\Program Files\Git\usr\bin\less.exe'
+
+# Utilities
+function which ($command) {
+  Get-Command -Name $command -ErrorAction SilentlyContinue |
+  Select-Object -ExpandProperty Path -ErrorAction SilentlyContinue
+}
+----------------------
+19.- Cambiar temas
+----------------------
+Set-PoshPrompt M365Princess
+Set-PoshPrompt atomic
+festivetech
+thecyberden
+velvet
+agnosterplus
+clean-detailed
+cloud-native-azure
+craver
+di4am0nd
+if_tea
+
+https://ohmyposh.dev/docs/themes
+
+
+
+{
+   "$schema":"https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+   "final_space":false,
+   "osc99":true,
+   "blocks":[
+      {
+         "type":"prompt",
+         "alignment":"left",
+         "segments":[
+            {
+               "type":"shell",
+               "style":"diamond",
+               "leading_diamond":"\u256d\u2500\ue0b6",
+               "trailing_diamond":"",
+               "foreground":"#ffffff",
+               "background":"#0077c2",
+               "properties":{
+                  
+               }
+            },
+            {
+               "type":"root",
+               "style":"diamond",
+               "leading_diamond":"",
+               "trailing_diamond":"",
+               "foreground":"#fffb38",
+               "background":"#ef5350",
+               "properties":{
+                  "root_icon":"\uf292",
+                  "prefix":"<parentBackground>\ue0b0</> "
+               }
+            },
+            {
+               "type":"path",
+               "style":"powerline",
+               "powerline_symbol":"\ue0b0",
+               "foreground":"#e4e4e4",
+               "background":"#444444",
+               "properties":{
+                  "style":"full",
+                  "enable_hyperlink":true
+               }
+            },
+            {
+               "type":"git",
+               "style":"powerline",
+               "powerline_symbol":"\ue0b0",
+               "foreground":"#011627",
+               "background":"#fffb38",
+               "background_templates":[
+                  "{{ if or (.Working.Changed) (.Staging.Changed) }}#ffeb95{{ end }}",
+                  "{{ if and (gt .Ahead 0) (gt .Behind 0) }}#c5e478{{ end }}",
+                  "{{ if gt .Ahead 0 }}#c792ea{{ end }}",
+                  "{{ if gt .Behind 0 }}#c792ea{{ end }}"
+               ],
+               "properties":{
+                  "branch_icon":"\ue725",
+                  "fetch_status":true,
+                  "fetch_upstream_icon":true,
+                  "template":"{{ .HEAD }} {{ if .Working.Changed }}{{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }}|{{ end }}{{ if .Staging.Changed }}<#ef5350> \uf046 {{ .Staging.String }}</>{{ end}}"
+               }
+            }  
+         ]
+      },
+	  {
+               "type":"prompt",
+               "alignment":"right",
+               "segments":[
+                  {
+                     "type":"node",
+                     "style":"diamond",
+                     "leading_diamond":" \ue0b6",
+                     "trailing_diamond":"\ue0b4",
+                     "foreground":"#3c873a",
+                     "background":"#303030",
+                     "properties":{
+                        "prefix":"\ue718",
+                        "postfix":"",
+                        "display_package_manager":true,
+                        "yarn_icon":" <#348cba>🐱‍👤</>",
+                        "npm_icon":" <#cc3a3a>📂</>"
+                     }
+                  },
+                  {
+                     "type":"time",
+                     "style":"diamond",
+                     "invert_powerline":true,
+                     "leading_diamond":" \ue0b6",
+                     "trailing_diamond":"\ue0b4",
+                     "foreground":"#ffffff",
+                     "background":"#40c4ff",
+                     "properties":{
+                        "prefix":"\uf5ef",
+                        "postfix":""
+                     }
+                  }
+               ]
+            },
+            {
+               "type":"prompt",
+               "alignment":"left",
+               "newline":true,
+               "segments":[
+                  {
+                     "type":"text",
+                     "style":"plain",
+                     "foreground":"#21c7c7",
+                     "properties":{
+                        "prefix":"",
+                        "postfix":"",
+                        "text":"╰─"
+                     }
+                  },
+                  {
+                     "type":"exit",
+                     "style":"plain",
+                     "foreground":"#e0f8ff",
+                     "properties":{
+                        "prefix":"\u276f",
+                        "display_exit_code":false,
+                        "always_enable":true,
+                        "error_color":"#ef5350"
+                     }
+                  }
+               ]
+            }
+   ]
+}
+
+***************
+{
+   "$schema":"https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+   "final_space":false,
+   "osc99":true,
+   "blocks":[
+      {
+         "type":"prompt",
+         "alignment":"left",
+         "segments":[
+            {
+               "type":"shell",
+               "style":"diamond",
+               "leading_diamond":"\u256d\u2500\ue0b6",
+               "trailing_diamond":"",
+               "foreground":"#ffffff",
+               "background":"#0077c2",
+               "properties":{
+                  
+               }
+            },
+            {
+               "type":"root",
+               "style":"diamond",
+               "leading_diamond":"",
+               "trailing_diamond":"",
+               "foreground":"#fffb38",
+               "background":"#ef5350",
+               "properties":{
+                  "root_icon":"\uf292",
+                  "prefix":"<parentBackground>\ue0b0</> "
+               }
+            },
+            {
+               "type":"path",
+               "style":"powerline",
+               "powerline_symbol":"\ue0b0",
+               "foreground":"#e4e4e4",
+               "background":"#444444",
+               "properties":{
+                  "style":"full",
+                  "enable_hyperlink":true
+               }
+            },
+            {
+               "type":"git",
+               "style":"powerline",
+               "powerline_symbol":"\ue0b0",
+               "foreground":"#011627",
+               "background":"#fffb38",
+               "background_templates":[
+                  "{{ if or (.Working.Changed) (.Staging.Changed) }}#ffeb95{{ end }}",
+                  "{{ if and (gt .Ahead 0) (gt .Behind 0) }}#c5e478{{ end }}",
+                  "{{ if gt .Ahead 0 }}#c792ea{{ end }}",
+                  "{{ if gt .Behind 0 }}#c792ea{{ end }}"
+               ],
+               "properties":{
+                  "branch_icon":"\ue725",
+                  "fetch_status":true,
+                  "fetch_upstream_icon":true,
+                  "template":"{{ .HEAD }} {{ if .Working.Changed }}{{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }}|{{ end }}{{ if .Staging.Changed }}<#ef5350> \uf046 {{ .Staging.String }}</>{{ end}}"
+               }
+            }
+         ]
+      },
+      {
+         "type":"prompt",
+         "alignment":"right",
+         "segments":[
+            {
+               "type":"node",
+               "style":"diamond",
+               "leading_diamond":" \ue0b6",
+               "trailing_diamond":"\ue0b4",
+               "foreground":"#3c873a",
+               "background":"#303030",
+               "properties":{
+                  "prefix":"\ue718",
+                  "postfix":"",
+                  "display_package_manager":true,
+                  "yarn_icon":" <#348cba>🐱‍👤</>",
+                  "npm_icon":" <#cc3a3a>📂</>"
+               }
+            },
+            {
+               "type":"time",
+               "style":"diamond",
+               "invert_powerline":true,
+               "leading_diamond":" \ue0b6",
+               "trailing_diamond":"\ue0b4",
+               "foreground":"#ffffff",
+               "background":"#40c4ff",
+               "properties":{
+                  "prefix":"\uf5ef",
+                  "postfix":""
+               }
+            }
+         ]
+      },
+      {
+         "type":"prompt",
+         "alignment":"left",
+         "newline":true,
+         "segments":[
+            {
+               "type":"text",
+               "style":"plain",
+               "foreground":"#21c7c7",
+               "properties":{
+                  "prefix":"",
+                  "postfix":"",
+                  "text":"╰─"
+               }
+            },
+            {
+               "type":"exit",
+               "style":"plain",
+               "foreground":"#e0f8ff",
+               "properties":{
+                  "prefix":"\u276f",
+                  "display_exit_code":false,
+                  "always_enable":true,
+                  "error_color":"#ef5350"
+               }
+            }
+         ]
+      }
+   ]
+}
