@@ -1,0 +1,38 @@
+Comandos para divertirse con la terminal en Linux
+
+##########################################################
+Comandos linux para divertirse xD
+##########################################################
+
+MP3
+mpg123 -Z *.mp3
+
+Onda de audio
+cava
+
+Matrix
+cmatrix
+
+Acuario
+asciiquarium -C
+
+Tren
+sl
+
+Tetrix
+bastel
+
+Vaca o animal que dice una frase
+cowsay frase
+cowsay -f dragon frase
+
+Dar color a comandos 
+lolcat
+cowsay frase | lolcat
+
+Banner
+toilet frase
+
+Mascota
+oneko
+oneko -dog
