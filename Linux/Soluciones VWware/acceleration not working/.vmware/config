@@ -1,0 +1,3 @@
+mks.enableX11Presentation=TRUE
+mks.enableVulkanPresentation=FALSE
+#mks.enableVulkanPresentation=TRUE
