@@ -1,0 +1,2 @@
+wget "https://download.mozilla.org/?product=firefox-devedition-latest-ssl&os=linux64&lang=es-ES" -O Firefox-dev.tar.bz2
+sudo tar xjf  Firefox-dev.tar.bz2 -C /opt/
